@@ -20,8 +20,8 @@ public class BezierCalculator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        curve.positionCount = precision+1;
-        positions = new Vector3[precision + 1];
+        curve.positionCount = precision;
+        positions = new Vector3[precision];
         
         DrawRationalCurve();
     }
@@ -50,7 +50,6 @@ public class BezierCalculator : MonoBehaviour
             float t = i / (float)precision;
             positions[i] = CalculateRationalBezierPoint(t, points);
         }
-        positions[precision] = points[0].localPosition;
         curve.SetPositions(positions);
     }
 
@@ -69,15 +68,15 @@ public class BezierCalculator : MonoBehaviour
 
     private Vector3 CalculateRationalBezierPoint(float t, Transform[] points)
     {
-        int n = points.Length + 1;
+        int n = points.Length;
         Vector3 numerator = Vector3.zero;
         float denominator = 0;
         for (int i=0; i<n; i++)
         {
             // calcolo (n su i)
             int n_i = CalculateCoeffBin(n, i);
-            numerator += n_i * (float)Math.Pow(t, i) * (float)Math.Pow(1 - t, n - i) * points[ i % points.Length ].localPosition * weights[i % points.Length];
-            denominator += n_i * (float)Math.Pow(t, i) * (float)Math.Pow(1 - t, n - i)* weights[i % points.Length];
+            numerator += n_i * (float)Math.Pow(t, i) * (float)Math.Pow(1 - t, n - i) * points[ i ].localPosition * weights[i];
+            denominator += n_i * (float)Math.Pow(t, i) * (float)Math.Pow(1 - t, n - i)* weights[i];
 
         }
         //Debug.Log("Num: " + numerator + "\nDen: " + denominator);
