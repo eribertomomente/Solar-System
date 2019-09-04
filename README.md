@@ -20,6 +20,7 @@ This is a preview:
 
 Solar System:
 
+<<<<<<< HEAD
 ![Solar System](./screenshots/solar1.PNG)
 
 Earth System:
