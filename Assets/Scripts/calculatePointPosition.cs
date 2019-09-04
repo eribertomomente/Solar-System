@@ -4,46 +4,33 @@ using UnityEngine;
 
 public class calculatePointPosition : MonoBehaviour
 {
-
-    public GameObject interpolationPointsContainer;
-    public GameObject controlPointsContainer;
+    public GameObject originalPoint;
+    public const int NUMBER_CTRL_POINTS =5;
     public float radius;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        Transform[] interpolationPoints = getChildrenPoints(interpolationPointsContainer);
-        Transform[] controlPoints = getChildrenPoints(controlPointsContainer);
-
-        int NUMBER_CTRL_POINTS = controlPoints.Length;
-        //Debug.Log(NUMBER_CTRL_POINTS);
         float alpha = 2*Mathf.PI / (2* NUMBER_CTRL_POINTS);
         float R = radius / Mathf.Cos(alpha);
         
         for(int i = 0; i < NUMBER_CTRL_POINTS; i++)
         {
+            float interpX = radius * Mathf.Sin(2 * i * alpha);
+            float interpZ = -radius * Mathf.Cos(2 * i * alpha);
+            GameObject goInterp = Instantiate(originalPoint, this.transform);
+            goInterp.name = "p" + 1;
+            goInterp.transform.localPosition = new Vector3(interpX, 0, interpZ);
+
             float ctrlX = R * Mathf.Sin((2 * i + 1) * alpha);
-            float ctrlY = -R * Mathf.Cos((2 * i + 1) * alpha);
-            controlPoints[i].localPosition = new Vector3(ctrlX, ctrlY, 0);
+            float ctrlZ = -R * Mathf.Cos((2 * i + 1) * alpha);
+            GameObject goCtrl = Instantiate(originalPoint, this.transform);
+            goCtrl.name = "c" + i;
+            goCtrl.transform.localPosition = new Vector3(ctrlX, 0, ctrlZ);
 
-            float interpX = radius * Mathf.Sin(2*i*alpha);
-            float interpY = -radius * Mathf.Cos(2 * i * alpha);
-            Debug.Log(interpX + " " + interpY);
-            interpolationPoints[i].localPosition = new Vector3(interpX, interpY, 0);
         }
     }
 
-
-    private Transform[] getChildrenPoints(GameObject container)
-    {
-        int pointsNumber = container.transform.childCount;
-        Transform[] resultPoints = new Transform[pointsNumber];
-
-        for(int i = 0; i < pointsNumber; i++)
-        {
-            resultPoints[i] = container.transform.GetChild(i);
-        }
-        return resultPoints;
-    }
+    
     
 }

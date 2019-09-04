@@ -21,4 +21,11 @@ public class Revolution : MonoBehaviour {
         var z = radius * Mathf.Cos(angle);
         return new Vector3(x, 0, z);
     }
+
+    public Vector3 GetPositionInTime(float offset)
+    {
+        float updatedSpeed = speed * (1 + speedSlider.value) * 2;
+        return GetPosition( (Time.time+offset) * updatedSpeed * Mathf.PI / 180.0f);
+
+    }
 }

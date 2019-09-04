@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/bezier.unity
+- path: Assets/SolarSystem.unity
   isLoaded: 1
   isActive: 1

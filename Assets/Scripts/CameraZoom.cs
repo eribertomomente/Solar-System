@@ -5,16 +5,52 @@ using UnityEngine;
 public class CameraZoom : MonoBehaviour {
     
     public Transform planetTarget;
-    public float smoothSpeed = 0.125f;
+    public float smoothSpeed = 0.01f;
     public Vector3 offset;
+    public bool isTopViewActive;
+    public Transform topView;
+    public Transform observer;
     
 
-
+   
     public void SetPlanetTarget(Transform t)
     {
-        Debug.Log("sono dentro setPlanet con: " + t.gameObject.name);
         planetTarget = t;
+        if (t != observer)
+        {
+            StartCoroutine(ChangeSmoothSpeed());
+        }
+        else
+        {
+            smoothSpeed = 0.01f;
+        }
         AdjustOffset();
+    }
+
+    IEnumerator ChangeSmoothSpeed()
+    {
+        yield return new WaitForSeconds(2.0f);
+        smoothSpeed = 1f;
+    }
+
+    public void SetTopView()
+    {
+        isTopViewActive = !isTopViewActive;
+        SwitchTopView();
+    }
+
+    private void SwitchTopView()
+    {
+        if (isTopViewActive)
+        {
+            planetTarget = topView;
+
+        }
+        else
+        {
+            planetTarget = observer;
+        }
+
     }
 
     public void AdjustOffset()
@@ -128,11 +164,17 @@ public class CameraZoom : MonoBehaviour {
             return;
         Vector3 desiredPosition;
         Vector3 smoothedPosition;
-        
+
         desiredPosition = planetTarget.position + offset;
+
         smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
         
         transform.position = smoothedPosition;
+        if (isTopViewActive || planetTarget == observer)
+        {
+            transform.LookAt(Vector3.zero);
+        }
+        
 
     }
 
