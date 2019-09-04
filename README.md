@@ -20,15 +20,15 @@ This is a preview:
 
 Solar System:
 
-![Solar System](./screenshots/solar1.png)
+![Solar System](../../screenshots/solar1.png)
 
 Earth System:
 
-![Earth System](./screenshots/solar2.png)
+![Earth System](../../screenshots/solar2.png)
 
 Venus:
 
-![Mercury](./screenshots/solar3.png)
+![Mercury](../../screenshots/solar3.png)
 
 
 # Actions
